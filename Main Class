@@ -6,7 +6,8 @@ import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 
 public class JavaAssignment {
-	static final String myApiKey = "AIzaSyCfKE-2xIyK7VbAeGYcnT7uq1KXYBH8ReI", csvFile = "C:/Users/bohls/Desktop/Addresses.csv";
+	static final String myApiKey = "AIzaSyCfKE-2xIyK7VbAeGYcnT7uq1KXYBH8ReI"
+	static final String csvFile = "C:/Users/bohls/Desktop/Addresses.csv";
 	static List<List<String>> listOfAddressLists = new ArrayList<List<String>>();     			//this will store the original CSV fields and the new information
 	static GeoApiContext context = new GeoApiContext().setApiKey(myApiKey);     				//create a new GeoApiContext and pass it the key
 	static GeocodingResult results[];     									//create a new GeocodingResult object
