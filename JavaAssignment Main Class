@@ -25,7 +25,7 @@ public class JavaAssignment {
 							 listOfAddressLists.get(i).get(1)+" " + 		//city
 							 listOfAddressLists.get(i).get(4)+", "+ 		//state
 							 listOfAddressLists.get(i).get(3)       );     		//postal
-				try {     //try to query the API
+				try {     									//try to query the API
 					results = GeocodingApi.geocode(context, targetAddress).await();     	//send the address and key
 					addMissingInfo(results[0].formattedAddress,     			//get Verified Address
 								   results[0].geometry.location.lat,     	//get Latitude
