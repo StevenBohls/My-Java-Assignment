@@ -7,19 +7,19 @@ import com.google.maps.model.GeocodingResult;
 
 public class JavaAssignment {
 	static final String myApiKey = "AIzaSyCfKE-2xIyK7VbAeGYcnT7uq1KXYBH8ReI", csvFile = "C:/Users/bohls/Desktop/Addresses.csv";
-	static List<List<String>> listOfAddressLists = new ArrayList<List<String>>();     		//this will store the original CSV fields and the new information
-	static GeoApiContext context = new GeoApiContext().setApiKey(myApiKey);     		//create a new GeoApiContext and pass it the key
-	static GeocodingResult results[];     		//create a new GeocodingResult object
+	static List<List<String>> listOfAddressLists = new ArrayList<List<String>>();     			//this will store the original CSV fields and the new information
+	static GeoApiContext context = new GeoApiContext().setApiKey(myApiKey);     				//create a new GeoApiContext and pass it the key
+	static GeocodingResult results[];     									//create a new GeocodingResult object
 
 	public static void main(String[]args) throws Exception {
-		int csvRows = TalkToCsv.readCsv().size();     		//read the CSV
-		getGeoLocations(csvRows);     		//query API
-		TalkToCsv.addMissingData(csvRows);     		//write coordinates to the CSV
+		int csvRows = TalkToCsv.readCsv().size();     							//read the CSV
+		getGeoLocations(csvRows);     									//query API
+		TalkToCsv.addMissingData(csvRows);     								//write coordinates to the CSV
 	}
 
 	static void getGeoLocations(int csvRows) {
-		for(int i=1;i<csvRows;i++) {     		//iterate through addresses (excluding the first line)
-			if(listOfAddressLists.get(i)!=null) {   		  //extract & concatenate address elements for a cleaner address
+		for(int i=1;i<csvRows;i++) {     								//iterate through addresses (excluding the first line)
+			if(listOfAddressLists.get(i)!=null) {   		  				//extract & concatenate address elements for a cleaner address
 				String targetAddress=(   listOfAddressLists.get(i).get(0)+" " + 		//address
 							 listOfAddressLists.get(i).get(1)+" " + 		//city
 							 listOfAddressLists.get(i).get(4)+", "+ 		//state
@@ -34,10 +34,10 @@ public class JavaAssignment {
 		}
 	}
 	
-	static void addMissingInfo() {addMissingInfo("null","null","null");}     		//overload this function to account for null values
-	static void addMissingInfo(Object ... result) {     		//store the LAT/LNG/Verified Address in a list
-		ArrayList <String> missingInfo = new ArrayList<String>();     		//make a list of strings
-		for (Object string : result) {missingInfo.add(String.valueOf(string));}     		//add the fields to the list
-		listOfAddressLists.add(missingInfo);     		//add the list to our overall list
+	static void addMissingInfo() {addMissingInfo("null","null","null");}     				//overload this function to account for null values
+	static void addMissingInfo(Object ... result) {     							//store the LAT/LNG/Verified Address in a list
+		ArrayList <String> missingInfo = new ArrayList<String>();     					//make a list of strings
+		for (Object string : result) {missingInfo.add(String.valueOf(string));}     			//add the fields to the list
+		listOfAddressLists.add(missingInfo);     							//add the list to our overall list
 	}
 }
