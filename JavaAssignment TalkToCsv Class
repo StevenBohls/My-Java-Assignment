@@ -9,39 +9,39 @@ import java.util.List;
 public class TalkToCsv {
 
 	public static List<List<String>> readCsv() throws Exception {
-		BufferedReader br = null; 														//use a buffered reader to scan the file 
-		String line = "";																//empty string as my line
-		try { 																			//try to read the CSV if it's there
+		BufferedReader br = null; 									//use a buffered reader to scan the file 
+		String line = "";										//empty string as my line
+		try { 												//try to read the CSV if it's there
 			br = new BufferedReader(new FileReader(JavaAssignment.csvFile));			//find/open the CSV
-			while ((line = br.readLine()) != null) { 									//as long as there's not a null (being the EOF) then . . .
-				String splitArray[] = line.split(","); 									//dump the whole line into an array delimited by commas to sort
-				ArrayList <String> splitList = new ArrayList<String>(); 				//recreate splitList to clear it each time
-				for (String string : splitArray) {splitList.add(string);}				//convert the array to a list to later add it to another list
-				JavaAssignment.listOfAddressLists.add(splitList); 						//add the list to our list of lists
+			while ((line = br.readLine()) != null) { 						//as long as there's not a null (being the EOF) then . . .
+				String splitArray[] = line.split(","); 						//dump the whole line into an array delimited by commas to sort
+				ArrayList <String> splitList = new ArrayList<String>(); 			//recreate splitList to clear it each time
+				for (String string : splitArray) {splitList.add(string);}			//convert the array to a list to later add it to another list
+				JavaAssignment.listOfAddressLists.add(splitList); 				//add the list to our list of lists
 			}
-		} finally {if (br != null) {br.close();}										//once the reader finds a null, close the CSV
-		} return JavaAssignment.listOfAddressLists; 									//return the list of lists
+		} finally {if (br != null) {br.close();}							//once the reader finds a null, close the CSV
+		} return JavaAssignment.listOfAddressLists; 							//return the list of lists
 	}
 
-	public static void addMissingData(int numRows) {									//numRows = the number of addresses on the CSV
-		try {																			//try to open the CSV if it's there
-			FileWriter writer = new FileWriter(JavaAssignment.csvFile);					//find/open the CSV
-			for(int j=0;j<numRows;j++) { 												//iterate through the addresses/rows in the CSV
+	public static void addMissingData(int numRows) {							//numRows = the number of addresses on the CSV
+		try {												//try to open the CSV if it's there
+			FileWriter writer = new FileWriter(JavaAssignment.csvFile);				//find/open the CSV
+			for(int j=0;j<numRows;j++) { 								//iterate through the addresses/rows in the CSV
 				int numCols = JavaAssignment.listOfAddressLists.get(j).size();			//get the "column" count from the number of items in the current list
-				csvWriter(j, writer, numCols);											//write the ORIGINAL CSV data back to the CSV
-				if(j!=0) {csvWriter(j+numRows-1, writer, 3);}							//write the NEW CSV data at the END of the original data (skip row 1's headers)
-				writer.append('\n'); 													//go to the next row of the file
+				csvWriter(j, writer, numCols);							//write the ORIGINAL CSV data back to the CSV
+				if(j!=0) {csvWriter(j+numRows-1, writer, 3);}					//write the NEW CSV data at the END of the original data (skip row 1's headers)
+				writer.append('\n'); 								//go to the next row of the file
 			}
-			writer.close(); 															//close the file
-		}catch(IOException e) {e.printStackTrace();} 									//print errors		
+			writer.close(); 									//close the file
+		}catch(IOException e) {e.printStackTrace();} 							//print errors		
 	}
 	static void csvWriter(int row, FileWriter writer, int loops) {						//write to the file
 		try{
-			for(int i=0; i<loops;i++) {													//"loops" determines how many columns are written to
+			for(int i=0; i<loops;i++) {								//"loops" determines how many columns are written to
 				writer.append(String.valueOf(JavaAssignment.listOfAddressLists			//trim and write the required information
-						.get(row).get(i)).replace(",", " "));							//replace the ","s in the value for "Verified Address" to stay in one cell
-				writer.append(",");														//go to the next cell of the file
+						.get(row).get(i)).replace(",", " "));				//replace the ","s in the value for "Verified Address" to stay in one cell
+				writer.append(",");								//go to the next cell of the file
 			}
-		}catch(IOException e) {e.printStackTrace();}									//print errors
+		}catch(IOException e) {e.printStackTrace();}							//print errors
 	}
 }
