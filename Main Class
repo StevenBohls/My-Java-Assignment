@@ -1,0 +1,43 @@
+package javaAssignment;
+import java.util.ArrayList;
+import java.util.List;
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
+
+public class JavaAssignment {
+	static final String myApiKey = "AIzaSyCfKE-2xIyK7VbAeGYcnT7uq1KXYBH8ReI", csvFile = "C:/Users/bohls/Desktop/Addresses.csv";
+	static List<List<String>> listOfAddressLists = new ArrayList<List<String>>();     //this will store the original CSV fields and the new information
+	static GeoApiContext context = new GeoApiContext().setApiKey(myApiKey);     //create a new GeoApiContext and pass it the key
+	static GeocodingResult results[];     //create a new GeocodingResult object
+
+	public static void main(String[]args) throws Exception {
+		int csvRows = TalkToCsv.readCsv().size();     //read the CSV
+		getGeoLocations(csvRows);     //query API
+		TalkToCsv.addMissingData(csvRows);     //write coordinates to the CSV
+	}
+
+	static void getGeoLocations(int csvRows) {
+		for(int i=1;i<csvRows;i++) {     //iterate through addresses (excluding the first line)
+			if(listOfAddressLists.get(i)!=null) {     //extract & concatenate address elements for a cleaner address
+				String targetAddress=(   listOfAddressLists.get(i).get(0)+" " +     //address
+										 listOfAddressLists.get(i).get(1)+" " +     //city
+										 listOfAddressLists.get(i).get(4)+", "+     //state
+										 listOfAddressLists.get(i).get(3)       );     //postal
+				try {     //try to query the API
+					results = GeocodingApi.geocode(context, targetAddress).await();     //send the address and key
+					addMissingInfo(results[0].formattedAddress,     //get Verified Address
+								   results[0].geometry.location.lat,     //get Latitude
+								   results[0].geometry.location.lng);     //get Longitude
+				} catch (Exception e) {addMissingInfo();}     //on error: send "null"s instead (to preserve the item's location)
+			}
+		}
+	}
+	
+	static void addMissingInfo() {addMissingInfo("null","null","null");}     //overload this function to account for null values
+	static void addMissingInfo(Object ... result) {     //store the LAT/LNG/Verified Address in a list
+		ArrayList <String> missingInfo = new ArrayList<String>();     //make a list of strings
+		for (Object string : result) {missingInfo.add(String.valueOf(string));}     //add the fields to the list
+		listOfAddressLists.add(missingInfo);     //add the list to our overall list
+	}
+}
