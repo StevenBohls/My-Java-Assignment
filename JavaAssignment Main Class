@@ -27,9 +27,9 @@ public class JavaAssignment {
 							 listOfAddressLists.get(i).get(3)       );     		//postal
 				try {     									//try to query the API
 					results = GeocodingApi.geocode(context, targetAddress).await();     	//send the address and key
-					addMissingInfo(results[0].formattedAddress,     			//get Verified Address
-								   results[0].geometry.location.lat,     	//get Latitude
-								   results[0].geometry.location.lng);     	//get Longitude
+					addMissingInfo(	 results[0].formattedAddress,     			//send Verified Address
+							 results[0].geometry.location.lat,     			//send Latitude
+							 results[0].geometry.location.lng   );     		//send Longitude
 				} catch (Exception e) {addMissingInfo();}     					//on error: send "null"s instead (to preserve the item's location)
 			}
 		}
@@ -37,8 +37,8 @@ public class JavaAssignment {
 	
 	static void addMissingInfo() {addMissingInfo("null","null","null");}     				//overload this function to account for null values
 	static void addMissingInfo(Object ... result) {     							//store the LAT/LNG/Verified Address in a list
-		ArrayList <String> missingInfo = new ArrayList<String>();     					//make a list of strings
-		for (Object string : result) {missingInfo.add(String.valueOf(string));}     			//add the fields to the list
-		listOfAddressLists.add(missingInfo);     							//add the list to our overall list
+		ArrayList <String> missingInfo = new ArrayList<String>();     					//make a list of the received strings
+		for (Object string : result) {missingInfo.add(String.valueOf(string));}     			//add received fields to the list
+		listOfAddressLists.add(missingInfo);     							//add this list to our overall list
 	}
 }
